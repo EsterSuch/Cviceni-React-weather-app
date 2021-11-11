@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 
 const App = () => {
+  const fetchWeather = () => {
+
+    fetch(`api.openweathermap.org/data/2.5/weather?q=Prague&units=metric&appid={25d05ff950a8ea005b0e48e3e909b68d}`)
+      .then(response => response.json())
+      .then(data => { console.log(data) })
+
+  }
+
+  useEffect(() => {
+    fetchWeather();
+  },
+    []);
+
+
+
+
   return (
     <div className="App">
       <div className="container">
@@ -66,17 +82,17 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div class="weather__forecast" id="predpoved">
-            <div class="forecast">
-              <div class="forecast__day">Day, date</div>
-              <div class="forecast__icon">
+          <div className="weather__forecast" id="predpoved">
+            <div className="forecast">
+              <div className="forecast__day">Day, date</div>
+              <div className="forecast__icon">
                 {/* <img
                   src={URL FROM OPEN WEATHER}
                   style={{ height: "100%" }}
                   alt="current weather icon"
                 /> */}
               </div>
-              <div class="forecast__temp">-- °C</div>
+              <div className="forecast__temp">-- °C</div>
             </div>
           </div>
         </div>
