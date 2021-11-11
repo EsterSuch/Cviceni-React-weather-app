@@ -4,7 +4,7 @@ import "./App.css";
 const App = () => {
   const fetchWeather = () => {
 
-    fetch(`api.openweathermap.org/data/2.5/weather?q=Prague&units=metric&appid={25d05ff950a8ea005b0e48e3e909b68d}`)
+    fetch(`api.openweathermap.org/data/2.5/weather?q=Prague&units=metric&appid=25d05ff950a8ea005b0e48e3e909b68d`)
       .then(response => response.json())
       .then(data => { console.log(data) })
 
