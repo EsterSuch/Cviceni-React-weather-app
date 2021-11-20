@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Weather from './components/Weather';
 import Forecast from './components/Forecast';
+import { cities } from './transfer/citiesDates';
 
 const myApi = process.env.REACT_APP_MY_API_ID;
 //const myApi = '25d05ff950a8ea005b0e48e3e909b68d';
@@ -12,9 +13,13 @@ const App = () => {
   const [forecast, setForecast] = useState(null);
   const [city, setCity] = useState('Pilsen');
 
-  /*const handleButtonClick = (location) => {
-    setCity(location)
-  }*/
+  // const handleButtonClick = (location) => {
+  //   setCity(location)
+  // }
+
+  const handleSelector = (event) => {
+    setCity(event.target.value)
+  }
 
   const fetchWeather = (city) => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${myApi}`)
@@ -43,6 +48,20 @@ const App = () => {
     <div className="App">
       <div className="container">
         <h1>My Weather App</h1>
+
+        <div className="select-wrapper">
+          <select
+            className="select"
+            name="cityselect"
+            id="cityselect"
+            value={city}
+            onChange={handleSelector}
+          >
+            {cities.map((city) =>
+              <option key={city} value={city}>{city}</option>)}
+          </select>
+        </div>
+
         <div className="weather">
           {/*  <div className="button-group">
             <button onClick={() => handleButtonClick('Tenerife')} className="button">Tenerife</button>
