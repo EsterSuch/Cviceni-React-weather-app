@@ -20,7 +20,7 @@ const App = () => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${myApi}`)
       .then(response => response.json())
       .then(data => { setWeather(data) })
-      .then(data => setCity(console.log(data)))
+
     //.then(data => { console.log(data) })
   }
 
