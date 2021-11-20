@@ -15,11 +15,18 @@ export const forecastDate = (unix) => {
   const date = new Date(unix * 1000).getDate();
   return date;
 };*/
-
+/*
 export const timeSetup = (unix) => {
   const hours = new Date(unix * 1000).getHours();
   const minutes = new Date(unix * 1000).getMinutes();
   const timeFormat = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+  return timeFormat;
+};*/
+
+export const timeSetup = (unix) => {
+  const hours = new Date(unix * 1000).getHours();
+  const minutes = new Date(unix * 1000).getMinutes();
+  const timeFormat = `${hours} : ${minutes.toString().padStart(2, '0')}`;
   return timeFormat;
 };
 
