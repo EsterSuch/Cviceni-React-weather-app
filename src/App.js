@@ -1,103 +1,64 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import Weather from './components/Weather';
+import Forecast from './components/Forecast';
+
+const myApi = process.env.REACT_APP_MY_API_ID;
+//const myApi = '25d05ff950a8ea005b0e48e3e909b68d';
 
 const App = () => {
-  const fetchWeather = () => {
 
-    fetch(`api.openweathermap.org/data/2.5/weather?q=Prague&units=metric&appid=25d05ff950a8ea005b0e48e3e909b68d`)
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
+  const [city, setCity] = useState('Pilsen');
+
+  /*const handleButtonClick = (location) => {
+    setCity(location)
+  }*/
+
+  const fetchWeather = (city) => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${myApi}`)
       .then(response => response.json())
-      .then(data => { console.log(data) })
-
+      .then(data => { setWeather(data) })
+    //.then(data => { console.log(data) })
   }
 
+  const fetchForecast = (city) => {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${myApi}`)
+      .then(response => response.json())
+      .then(data => { setForecast(data.list.filter((_, index) => index % 8 === 0)) })
+  }
   useEffect(() => {
-    fetchWeather();
+    fetchWeather(city);
+    fetchForecast(city);
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
   },
-    []);
+    [city]);
 
-
-
+  //console.log(weather);
+  //console.log(forecast);
 
   return (
     <div className="App">
       <div className="container">
         <h1>My Weather App</h1>
         <div className="weather">
-          {/* <div className="button-group">
-            <button className="button">City01</button>
-            <button className="button">City02</button>
-            <button className="button">City03</button>
-          </div> */}
-          <div className="weather__current">
-            <h2 className="weather__city" id="mesto">
-              City, Country
-            </h2>
-            <div className="weather__inner weather__inner--center">
-              <div className="weather__section weather__section--temp">
-                <span className="weather__temp-value" id="teplota">
-                  --
-                </span>
-                <span className="weather__temp-unit">°C</span>
-                <div className="weather__description" id="popis">
-                  --
-                </div>
-              </div>
-              <div
-                className="weather__section weather__section--icon"
-                id="ikona"
-              >
-                --
-                {/* <img
-                  src={URL FROM OPEN WEATHER}
-                  alt="current weather icon"
-                /> */}
-              </div>
-            </div>
-            <div className="weather__inner">
-              <div className="weather__section">
-                <h3 className="weather__title">Wind</h3>
-                <div className="weather__value">
-                  <span id="wind">--</span> km/h
-                </div>
-              </div>
-              <div className="weather__section">
-                <h3 className="weather__title">Humidity</h3>
-                <div className="weather__value">
-                  <span id="humidity">--</span> %
-                </div>
-              </div>
-            </div>
-            <div className="weather__inner">
-              <div className="weather__section">
-                <h3 className="weather__title">Sunrise</h3>
-                <div className="weather__value">
-                  <span id="sunrise">--</span>
-                </div>
-              </div>
-              <div className="weather__section">
-                <h3 className="weather__title">Sunset</h3>
-                <div className="weather__value">
-                  <span id="sunset">--</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/*  <div className="button-group">
+            <button onClick={() => handleButtonClick('Tenerife')} className="button">Tenerife</button>
+            <button onClick={() => handleButtonClick('Prague')} className="button">Prague</button>
+            <button onClick={() => handleButtonClick('London')} className="button">London</button>
+  </div>*/}
+          <Weather weather={weather} />
+
+
           <div className="weather__forecast" id="predpoved">
-            <div className="forecast">
-              <div className="forecast__day">Day, date</div>
-              <div className="forecast__icon">
-                {/* <img
-                  src={URL FROM OPEN WEATHER}
-                  style={{ height: "100%" }}
-                  alt="current weather icon"
-                /> */}
-              </div>
-              <div className="forecast__temp">-- °C</div>
-            </div>
+            {forecast?.map((forecast, index) => (
+              <Forecast key={index} forecast={forecast} />))}
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 
